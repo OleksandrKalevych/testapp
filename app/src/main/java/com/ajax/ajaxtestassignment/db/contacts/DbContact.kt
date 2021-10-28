@@ -15,5 +15,5 @@ data class DbContact(
 )
 
 fun DbContact.toDomainModel(): DomainContact {
-    return DomainContact(firstName?:"", lastName?: "", email?:"", photo)
+    return DomainContact(id, firstName?:"", lastName?: "", email?:"", photo)
 }

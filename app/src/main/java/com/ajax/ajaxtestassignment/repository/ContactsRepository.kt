@@ -2,6 +2,8 @@ package com.ajax.ajaxtestassignment.repository
 
 import android.accounts.NetworkErrorException
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.ajax.ajaxtestassignment.api.contacts.ContactsService
 import com.ajax.ajaxtestassignment.api.contacts.mapper.toDbModel
@@ -23,6 +25,15 @@ class ContactsRepository(val network: ContactsService, val contactsDao: Contacts
             } catch (error: Throwable) {
                 throw NetworkErrorException("Unable to refresh contacts", error)
             }
+        }
+    }
+
+    val requestedContact: MutableLiveData<DomainContact> = MutableLiveData()
+
+    suspend fun requestContact(id: Int){
+        withContext(Dispatchers.Default) {
+            val contact = contactsDao.getContact(id)
+            requestedContact.postValue(contact.toDomainModel())
         }
     }
 }

@@ -8,6 +8,9 @@ interface ContactsDao {
     @Query("SELECT * FROM Contact")
     fun getContacts(): LiveData<List<DbContact>>
 
+    @Query("SELECT * FROM Contact WHERE id = :id")
+    suspend fun getContact(id: Int): DbContact
+
     @Update
     suspend fun update(contact: DbContact)
 
