@@ -1,5 +1,6 @@
 package com.ajax.ajaxtestassignment.ui.contactslist
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,34 +19,32 @@ open class ContactsListFragment : Fragment() {
     private var binding: FragmentContactsListBinding? = null
     private var viewModel: ContactsViewModel? = null
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        contactAdapter = ContactAdapter(
-            listOf("Text"),
-            requireActivity()
-        )
+        contactAdapter = ContactAdapter(listOf(), requireActivity())
 
+        //move to DI
         val database = getDatabase(requireContext())
         val repository = ContactsRepository(RetrofitServicesProvider().contactsService, database.userDao())
 
+        //move to DI
         viewModel = ViewModelProviders
             .of(this, ContactsViewModel.FACTORY(repository))
             .get(ContactsViewModel::class.java)
 
         viewModel?.contacts?.observe(viewLifecycleOwner) { value ->
             value?.let {
-                if (it.size < 10) {
-                    //Amazingly bad line refactor if have time
-                    viewModel?.onTriggerRefresh()
+                if (it.isEmpty()) {
+                    viewModel?.onReload()
                 }
 
-              val items = it.map { it.email?:"" }
-
+                val newItems = it
                 contactAdapter.apply {
-                    this.items = items
+                    this.items = newItems
                     notifyDataSetChanged()
                 }
             }
@@ -57,14 +56,13 @@ open class ContactsListFragment : Fragment() {
                 contactList.layoutManager = LinearLayoutManager(context)
                 contactList.adapter = contactAdapter
             }
-            .also {
-                binding = binding
-            }
+            .also { binding = it }
             .root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+        viewModel = null
     }
 }

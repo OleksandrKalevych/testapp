@@ -7,9 +7,9 @@ import kotlinx.coroutines.launch
 
 class ContactsViewModel(private val repository: ContactsRepository) : ViewModel() {
 
-    val contacts = repository.contacts
+    val contacts = repository.contacts.map { it.map { it.toPresentationModel() } }
 
-    fun onTriggerRefresh() {
+    fun onReload() {
         launchDataLoad {
             repository.refreshData()
         }

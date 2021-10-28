@@ -20,10 +20,31 @@
         <TextView
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/text"
+            android:id="@+id/mail"
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/mail"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/name"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/surname"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            app:layout_constraintTop_toBottomOf="@id/surname"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/picture"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
