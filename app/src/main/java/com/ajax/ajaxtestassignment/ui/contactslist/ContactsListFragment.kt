@@ -36,8 +36,15 @@ open class ContactsListFragment : Fragment() {
                 override fun onItemClick(item: ContactPresentation) {
                     findNavController().navigate(R.id.action_contactList_to_contactDetails, bundleOf(CONTACT_ID to item.id))
                 }
+            },
+            object : OnContactItemClickListener{
+                override fun onItemClick(item: ContactPresentation) {
+                    viewModel?.delete(item.id)
+                }
             }
         )
+
+
 
         //move to DI
         val database = getDatabase(requireContext())
@@ -67,8 +74,11 @@ open class ContactsListFragment : Fragment() {
             .apply {
                 contactList.layoutManager = LinearLayoutManager(context)
                 contactList.adapter = contactAdapter
+                refresh.setOnClickListener { viewModel?.deleteAll() }
             }
-            .also { binding = it }
+            .also {
+                binding = it
+            }
             .root
     }
 

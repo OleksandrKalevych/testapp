@@ -8,6 +8,7 @@ import androidx.lifecycle.map
 import com.ajax.ajaxtestassignment.api.contacts.ContactsService
 import com.ajax.ajaxtestassignment.api.contacts.mapper.toDbModel
 import com.ajax.ajaxtestassignment.db.contacts.ContactsDao
+import com.ajax.ajaxtestassignment.db.contacts.DbContact
 import com.ajax.ajaxtestassignment.db.contacts.toDomainModel
 import com.ajax.ajaxtestassignment.repository.model.DomainContact
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,18 @@ class ContactsRepository(val network: ContactsService, val contactsDao: Contacts
                 throw NetworkErrorException("Unable to refresh contacts", error)
             }
         }
+    }
+
+    suspend fun delete(id: Int){
+        contactsDao.deleteById(id)
+    }
+
+    suspend fun deleteAll(){
+        contactsDao.deleteAll()
+    }
+
+    suspend fun update(contact: DbContact){
+        contactsDao.update(contact)
     }
 
     val requestedContact: MutableLiveData<DomainContact> = MutableLiveData()

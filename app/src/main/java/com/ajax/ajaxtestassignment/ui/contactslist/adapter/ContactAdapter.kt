@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 
 import com.ajax.ajaxtestassignment.ui.contactslist.adapter.OnContactItemClickListener
 
-class ContactAdapter (var items: List<ContactPresentation>, private val context: Activity, val clickListener: OnContactItemClickListener) : RecyclerView.Adapter<ViewHolder>() {
+class ContactAdapter (var items: List<ContactPresentation>, private val context: Activity, val clickListener: OnContactItemClickListener, val deleteListener: OnContactItemClickListener) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ViewHolder {
         val view =  ItemContactListBinding.inflate(LayoutInflater.from(context), parent, false)
@@ -18,6 +18,10 @@ class ContactAdapter (var items: List<ContactPresentation>, private val context:
         val holder = ViewHolder(view)
         view.allArea.setOnClickListener {
             clickListener.onItemClick(items[holder.adapterPosition])
+        }
+
+        view.delete.setOnClickListener {
+            deleteListener.onItemClick(items[holder.adapterPosition])
         }
 
         return holder

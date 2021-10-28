@@ -2,6 +2,7 @@ package com.ajax.ajaxtestassignment.ui.contactslist
 
 import android.accounts.NetworkErrorException
 import androidx.lifecycle.*
+import com.ajax.ajaxtestassignment.db.contacts.DbContact
 import com.ajax.ajaxtestassignment.repository.ContactsRepository
 import kotlinx.coroutines.launch
 
@@ -12,6 +13,24 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
     fun onReload() {
         launchDataLoad {
             repository.refreshData()
+        }
+    }
+
+    fun delete(id: Int) {
+        viewModelScope.launch {
+            repository.delete(id)
+        }
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch {
+            repository.deleteAll()
+        }
+    }
+
+    fun update(contact: DbContact){
+        viewModelScope.launch {
+            repository.update(contact)
         }
     }
 
