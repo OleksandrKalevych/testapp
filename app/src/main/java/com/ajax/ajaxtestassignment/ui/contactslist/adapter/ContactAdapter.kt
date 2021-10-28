@@ -15,11 +15,12 @@ class ContactAdapter (var items: List<ContactPresentation>, private val context:
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ViewHolder {
         val view =  ItemContactListBinding.inflate(LayoutInflater.from(context), parent, false)
 
+        val holder = ViewHolder(view)
         view.allArea.setOnClickListener {
-            clickListener.onItemClick(items[position])
+            clickListener.onItemClick(items[holder.adapterPosition])
         }
 
-        return ViewHolder(view)
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
